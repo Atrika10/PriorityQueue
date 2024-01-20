@@ -11,9 +11,33 @@ public class weekestRows {
         @Override
         public int compareTo(pair p2) {
             
-            return this.ones - p2.ones;     // I'll get that row which is min
+            if(p2.ones == this.ones){
+                return this.idx - p2.idx; // if soldiers are same then return on the basis of index
+            }
+            else{
+                return this.ones - p2.ones;     // else return whose soldiers are less
+            }
         }
         
+    }
+    public static int[] kWeakestRowsLC(int[][] mat, int k) {
+        // create a pq & add 1's of each rows
+        PriorityQueue<pair> pq = new PriorityQueue<>();
+        for (int i = 0; i < mat.length; i++) {
+            int count = 0;
+            for (int j = 0; j < mat[0].length; j++) {
+                if(mat[i][j] == 1){
+                    count++;
+                }
+            }
+            pq.add(new pair(i, count));
+        }
+
+        int arr[] = new int[k];
+        for(int i=0; i<k; i++){
+            arr[i] = pq.remove().idx; 
+        }
+        return arr;
     }
 
     public static ArrayList<Integer> kWeakestRows(int[][] mat, int k) {
@@ -62,6 +86,14 @@ public class weekestRows {
         int k = 3;
         ArrayList<Integer> al =  new ArrayList<>();
         al = kWeakestRows(mat, k);
-        System.out.println(al);
+         System.out.println(al);
+
+        int arr[] = new int[k];
+        arr = kWeakestRowsLC(mat, k);
+
+        // print
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]+" ->");
+        }
     }
 }
